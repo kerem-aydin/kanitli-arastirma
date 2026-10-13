@@ -10,7 +10,7 @@ a quote nobody said, a "pain point" from three blog posts. This is the method I
 use instead. Coding agents do the reading; the method decides what counts.
 
 ```mermaid
-flowchart LR
+flowchart TB
   Q[QUESTION.md<br/>hypotheses, sources,<br/>the right voice] --> S1
   S1[1 · Scan<br/>pilot gate:<br/>10 read by hand] --> S2[2 · Deep<br/>pain, payment,<br/>buyer, rivals, score]
   S2 --> A1[3 · Audit<br/>agent that did not<br/>write the work]
