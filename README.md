@@ -9,6 +9,18 @@ confident, well-written answer that is often wrong: a market size from nowhere,
 a quote nobody said, a "pain point" from three blog posts. This is the method I
 use instead. Coding agents do the reading; the method decides what counts.
 
+```mermaid
+flowchart LR
+  Q[QUESTION.md<br/>hypotheses, sources,<br/>the right voice] --> S1
+  S1[1 · Scan<br/>pilot gate:<br/>10 read by hand] --> S2[2 · Deep<br/>pain, payment,<br/>buyer, rivals, score]
+  S2 --> A1[3 · Audit<br/>agent that did not<br/>write the work]
+  A1 --> F1[4 · Fix<br/>close every item<br/>or mark it open]
+  F1 -->|second round| A1
+  F1 --> R[5 · Result<br/>two pages,<br/>what desk research<br/>cannot answer]
+  L[(ledger.json<br/>URL · date · quote)] -.-> S2
+  L -.-> A1
+```
+
 - **Five stages, each a separate agent run** with a fresh context: scan, deep
   verification, adversarial audit, fix, result. Files in, files out.
 - **The auditor did not write the work.** It is told to act as an operator and
