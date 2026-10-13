@@ -1,0 +1,10 @@
+{
+  "name": "kanitli-arastirma",
+  "version": "0.1.0",
+  "description": "Evidence-first market research run by coding agents: five stages as separate runs, an adversarial audit by an agent that did not write the work, two audit-and-fix rounds, and code-checked rules for what counts as proof that people pay.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": { "test": "node --test test/*.test.js" },
+  "keywords": ["research", "ai-agents", "codex", "claude-code", "market-research", "evidence"]
+}
