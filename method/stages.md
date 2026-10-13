@@ -2,8 +2,10 @@
 
 Every line of research follows the same five stages. Each stage is a separate
 agent run with a fresh context, reads only files, and writes only files. A
-stage counts as done only when its output file exists; progress notes go to a
-separate file, so a half-finished run never looks finished.
+stage counts as done only when the agent exited cleanly, its output file exists
+and the code checks in `src/check.js` pass (`run.sh` then writes a marker to
+`.done/`). Progress notes go to a separate file, so a half-finished run never
+looks finished.
 
 Each run first reads `rules.md` and the line's `QUESTION.md`.
 
@@ -11,9 +13,11 @@ Each run first reads `rules.md` and the line's `QUESTION.md`.
 1. **Source plan** → `source-plan.json`: for each source type in the question,
    the queries, brands and channels to pull.
 2. **Pilot gate** before any full pull: fetch a small sample, read 10 records by
-   hand, and record `{query, read, relevant, rightVoice, decision}` in
-   `pilot-decisions.json`. Below 50% relevant *and* from the right voice (the
-   person who pays, not a bystander), the query is dropped.
+   hand, and record `{query, read, relevant, rightVoice, both, decision}` in
+   `pilot-decisions.json`. `both` is the number of records that are relevant
+   *and* from the right voice (the person who pays, not a bystander), counted
+   while reading. Below 50%, the query is dropped. The runner recomputes every
+   decision from the numbers and stops if they disagree.
 3. **Collect** → `raw/<source>.jsonl`, personal data removed at write time.
    Free and public sources first. Every paid call has a hard budget.
 4. **Filter by code, interpret by reading.** Language, length, duplicates and
@@ -35,7 +39,16 @@ For the strongest clusters, plus up to three that look underrated, live web rese
 7. **Score** out of 100 (`rules.md`), one line of reason per part.
 8. **Hypotheses** from the question: support / against / verdict.
 
-Output: `S2-deep.md`, `deep.json` sorted by score, `ledger.json` (every claim with URL, date, quote).
+Output: `S2-deep.md`, `ledger.json` (every claim with URL, date, quote) and
+`deep.json`, a list sorted by total score:
+
+```json
+[{ "problem": "…", "score": { "pain": { "points": 14, "reason": "…", "source": "https://…", "quote": "…" },
+                              "payment": { … }, "scale": { … }, "buildSpeed": { … },
+                              "access": { … }, "gap": { … }, "recurring": { … } } }]
+```
+
+The runner checks both files with `src/rules.js` before the stage counts as done.
 
 ## Stage 3 · Adversarial audit (round N)
 > You did not write this work and you have no reason to be kind. You are an

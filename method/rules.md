@@ -20,11 +20,13 @@ Write payment queries for these classes ("cancelled subscription", "worth it",
 ## Score (out of 100)
 Pain 0-20 · Payment 0-20 · Scale 0-15 · Build speed 0-15 · Access to buyers 0-15 ·
 Competitive gap 0-10 · Recurring revenue 0-5. One line of reason per part; pain
-or payment of 12 or more needs a sourced quote. `src/rules.js` checks this.
+or payment of 12 or more needs a source URL and a verbatim quote. `src/rules.js`
+checks this, and `run.sh` stops the line if `deep.json` fails it.
 
 ## Evidence ledger
 Every claim that a decision rests on goes to `ledger.json` with URL, date and a
-short verbatim quote. A claim without an entry does not exist.
+short verbatim quote. A claim without an entry does not exist. The runner
+rejects entries with a malformed URL, an impossible date or no quote.
 
 ## People and data
 Public content only. No logins, no messages to anyone, no personal data kept:
